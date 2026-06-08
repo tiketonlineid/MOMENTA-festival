@@ -393,11 +393,41 @@ document.getElementById('buyBtn').disabled = total <= 0;
 }
 
 document.getElementById('buyBtn').onclick = function(){
+
+const totalSingle = qtySingle * PRICE_SINGLE;
+const totalBundle = (qtyBundle4/4) * PRICE_BUNDLE4;
+const total = totalSingle + totalBundle;
+
+let jenisTiket = '';
+
+if(qtySingle > 0 && qtyBundle4 === 0){
+    jenisTiket = 'EXTRA SALE FESTIVAL';
+}
+
+else if(qtyBundle4 > 0 && qtySingle === 0){
+    jenisTiket = 'BLOOM EXTRA FESTIVAL (BER EMPAT)';
+}
+
+else if(qtySingle > 0 && qtyBundle4 > 0){
+    jenisTiket = 'COMBINED TICKET';
+}
+
+localStorage.setItem(
+    'totalPembayaran',
+    total
+);
+
+localStorage.setItem(
+    'jenis_tiket',
+    jenisTiket
+);
+
 document.getElementById('loader').style.display='flex';
 
 setTimeout(()=>{
-window.location.href='from.html';
+    window.location.href='from.html';
 },3000);
+
 }
 </script>
 
