@@ -1,1 +1,380 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Pilih Tiket Event</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f5faff;
+padding:20px;
+padding-bottom:120px;
+}
+
+.banner{
+width:100%;
+border-radius:20px;
+overflow:hidden;
+margin-bottom:20px;
+}
+
+.banner img{
+width:100%;
+display:block;
+}
+
+.section-title{
+font-size:26px;
+font-weight:bold;
+margin-bottom:20px;
+}
+
+.ticket-card{
+position:relative;
+background:white;
+border:2px solid #d8ecff;
+border-radius:25px;
+overflow:hidden;
+padding:22px;
+margin-bottom:20px;
+box-shadow:0 8px 25px rgba(0,0,0,.06);
+}
+
+.ticket-card::before,
+.ticket-card::after{
+content:"";
+position:absolute;
+width:36px;
+height:36px;
+background:#f5faff;
+border-radius:50%;
+top:50%;
+transform:translateY(-50%);
+}
+
+.ticket-card::before{
+left:-18px;
+}
+
+.ticket-card::after{
+right:-18px;
+}
+
+.sale{
+display:inline-block;
+background:#dff1ff;
+color:#0095ff;
+padding:8px 14px;
+border-radius:12px;
+font-size:13px;
+font-weight:bold;
+}
+
+.stock{
+position:absolute;
+top:20px;
+right:20px;
+background:#fff3d9;
+color:#ff7b00;
+padding:8px 14px;
+border-radius:999px;
+font-size:12px;
+font-weight:bold;
+animation:pulse 1s infinite;
+}
+
+@keyframes pulse{
+50%{
+transform:scale(1.08);
+}
+}
+
+.ticket-name{
+font-size:22px;
+font-weight:bold;
+margin-top:15px;
+margin-bottom:12px;
+}
+
+.ticket-info{
+font-size:14px;
+line-height:1.8;
+color:#444;
+}
+
+.divider{
+border-top:2px dashed #d8ecff;
+margin:18px 0;
+}
+
+.ticket-bottom{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.price{
+font-size:28px;
+font-weight:bold;
+color:#00aaff;
+}
+
+.select-btn{
+background:#00aaff;
+color:white;
+border:none;
+padding:12px 18px;
+border-radius:12px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.qty-box{
+display:none;
+align-items:center;
+gap:10px;
+}
+
+.qty-btn{
+width:38px;
+height:38px;
+border:none;
+background:#00aaff;
+color:white;
+font-size:20px;
+border-radius:10px;
+cursor:pointer;
+}
+
+.qty-number{
+font-size:20px;
+font-weight:bold;
+width:30px;
+text-align:center;
+}
+
+.checkout{
+position:fixed;
+left:0;
+bottom:0;
+width:100%;
+background:white;
+padding:15px;
+box-shadow:0 -5px 20px rgba(0,0,0,.08);
+}
+
+.checkout-wrap{
+max-width:1000px;
+margin:auto;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.total{
+font-size:22px;
+font-weight:bold;
+color:#00aaff;
+}
+
+.buy-btn{
+background:#00aaff;
+color:white;
+border:none;
+padding:14px 24px;
+border-radius:14px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.buy-btn:disabled{
+background:#c5dceb;
+cursor:not-allowed;
+}
+
+.loader{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(255,255,255,.9);
+justify-content:center;
+align-items:center;
+font-size:28px;
+font-weight:bold;
+color:#00aaff;
+}
+
+</style>
+</head>
+<body>
+
+<div class="banner">
+<img src="banner-event.png">
+</div>
+
+<div class="section-title">
+🎫 Pilih Tiket
+</div>
+
+<div class="ticket-card">
+
+<div class="sale">
+ON SALE
+</div>
+
+<div class="stock">
+🔥 Tersisa 10
+</div>
+
+<div class="ticket-name">
+EXTRA SALE 2 - FESTIVAL
+</div>
+
+<div class="ticket-info">
+
+• Jam masuk dibebaskan maksimal sebelum 20.00 WIB<br>
+
+• Khusus pembelian 1-3 tiket<br>
+
+• Tiket Festival Standing Area<br>
+
+• Data peserta bisa disamakan atau dibedakan<br>
+
+• Anak dibawah 7 tahun gratis dengan pengawasan orang tua<br>
+
+• Promotor tidak bertanggung jawab atas pembelian di luar partner resmi
+
+</div>
+
+<div class="divider"></div>
+
+<div class="ticket-bottom">
+
+<div class="price">
+Rp150.000
+</div>
+
+<button class="select-btn" id="selectBtn" onclick="showQty()">
+Pilih Tiket
+</button>
+
+<div class="qty-box" id="qtyBox">
+
+<button class="qty-btn" onclick="minus()">
+-
+</button>
+
+<div class="qty-number" id="qty">
+1
+</div>
+
+<button class="qty-btn" onclick="plus()">
++
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="checkout">
+
+<div class="checkout-wrap">
+
+<div class="total" id="total">
+Rp0
+</div>
+
+<button class="buy-btn" id="buyBtn" disabled>
+BELI TIKET
+</button>
+
+</div>
+
+</div>
+
+<div class="loader" id="loader">
+Loading...
+</div>
+
+<script>
+
+let qty=0;
+const price=150000;
+
+function showQty(){
+
+document.getElementById('selectBtn').style.display='none';
+
+document.getElementById('qtyBox').style.display='flex';
+
+qty=1;
+
+updateTotal();
+
+}
+
+function plus(){
+
+if(qty<3){
+
+qty++;
+
+updateTotal();
+
+}
+
+}
+
+function minus(){
+
+if(qty>1){
+
+qty--;
+
+updateTotal();
+
+}
+
+}
+
+function updateTotal(){
+
+document.getElementById('qty').innerText=qty;
+
+let total=qty*price;
+
+document.getElementById('total').innerText=
+'Rp'+total.toLocaleString('id-ID');
+
+document.getElementById('buyBtn').disabled=false;
+
+}
+
+document.getElementById('buyBtn').onclick=function(){
+
+document.getElementById('loader').style.display='flex';
+
+setTimeout(()=>{
+
+window.location.href='from.html';
+
+},3000);
+
+}
+
+</script>
+
+</body>
+</html>
