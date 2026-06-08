@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>QRIS Payment - MOMENTA FEST</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<link href="https://://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif}
 body{background:radial-gradient(circle at top,#0b1d4a,#050816,#000);min-height:100vh;color:#fff;padding:20px}
@@ -30,6 +32,7 @@ input[type=file]{width:100%;padding:12px;background:#fff;border-radius:12px;marg
 
 <div class="wrap">
 <div class="card">
+
 <div class="small">SISA WAKTU PEMBAYARAN</div>
 <div id="payTimer" class="timer">30:00</div>
 
@@ -53,6 +56,7 @@ QR Pembayaran Akan Diperbarui Dalam
 <img id="preview" class="preview">
 
 <button class="btn" onclick="verifikasi()">KONFIRMASI PEMBAYARAN</button>
+
 </div>
 </div>
 
@@ -62,52 +66,62 @@ QR Pembayaran Akan Diperbarui Dalam
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
 <script>
 emailjs.init({
-  publicKey:"mmMWE8smJccd9IZLO"
+ publicKey:"ISI_PUBLIC_KEY_DISINI"
 });
 
-const total=localStorage.getItem('totalPembayaran')||'150000';
-document.getElementById('total').innerText='Rp'+Number(total).toLocaleString('id-ID');
+const total = localStorage.getItem('totalPembayaran') || '150000';
+document.getElementById('total').innerText =
+'Rp' + Number(total).toLocaleString('id-ID');
 
-let p=1800;
+let p = 1800;
 setInterval(()=>{
  if(p>0){
   p--;
   let m=Math.floor(p/60);
   let s=p%60;
-  payTimer.innerText=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  document.getElementById('payTimer').innerText =
+  String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
  }
 },1000);
 
-let qr=300;
+let qr = 300;
 setInterval(()=>{
  qr--;
  if(qr<0) qr=300;
+
  let m=Math.floor(qr/60);
  let s=qr%60;
- qrTimer.innerText=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+
+ document.getElementById('qrTimer').innerText =
+ String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
 },1000);
 
-bukti.onchange=e=>{
+document.getElementById('bukti').onchange = e=>{
  const f=e.target.files[0];
- if(!f)return;
- preview.src=URL.createObjectURL(f);
- preview.style.display='block';
+ if(!f) return;
+
+ document.getElementById('preview').src =
+ URL.createObjectURL(f);
+
+ document.getElementById('preview').style.display='block';
 }
 
 function verifikasi(){
- if(!agree.checked){
+
+ if(!document.getElementById('agree').checked){
   alert('Centang konfirmasi pembayaran terlebih dahulu.');
   return;
  }
 
- if(!bukti.files.length){
+ if(!document.getElementById('bukti').files.length){
   alert('Upload bukti pembayaran terlebih dahulu.');
   return;
  }
 
- overlay.style.display='flex';
+ document.getElementById('overlay').style.display='flex';
 
  const dataEmail={
   nama:localStorage.getItem('nama')||'',
@@ -116,14 +130,25 @@ function verifikasi(){
   identitas:localStorage.getItem('identitas')||'',
   nomorIdentitas:localStorage.getItem('nomorIdentitas')||'',
   alamat:localStorage.getItem('alamat')||'',
-  tanggal_transaksi:new Date().toLocaleString('id-ID'),
+  jenis_tiket:localStorage.getItem('jenis_tiket')||'',
+  totalPembayaran:localStorage.getItem('totalPembayaran')||'',
   metode_pembayaran:'QRIS',
-  jenis_tiket:localStorage.getItem('jenis_tiket')||'EXTRA SALE FESTIVAL',
-  totalPembayaran:localStorage.getItem('totalPembayaran')||'150000'
+  tanggal_transaksi:new Date().toLocaleString('id-ID')
  };
 
- emailjs.send('template_egdxxaj',dataEmail);
- emailjs.send('template_6wlex0w',dataEmail);
+ // EMAIL ADMIN
+ emailjs.send(
+  'ISI_SERVICE_ID_DISINI',
+  'ISI_TEMPLATE_ID_ADMIN_DISINI',
+  dataEmail
+ );
+
+ // EMAIL PESERTA
+ emailjs.send(
+  'ISI_SERVICE_ID_DISINI',
+  'ISI_TEMPLATE_ID_PESERTA_DISINI',
+  dataEmail
+ );
 
  const teks=[
  'Pembayaran Sedang Diproses...',
@@ -137,12 +162,11 @@ function verifikasi(){
  ];
 
  let i=0;
- status.innerText=teks[0];
 
  const jalan=setInterval(()=>{
   i++;
   if(i<teks.length){
-   status.innerText=teks[i];
+   document.getElementById('status').innerText=teks[i];
   }
  },1500);
 
@@ -150,6 +174,7 @@ function verifikasi(){
   clearInterval(jalan);
   window.location.href='status.html';
  },11000);
+
 }
 </script>
 
