@@ -1,408 +1,197 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pilih Tiket Event</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SOD Style Checkout</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Poppins,sans-serif;background:linear-gradient(135deg,#3b0764,#6b21a8,#9333ea);color:#fff;overflow-x:hidden}
+body:before{content:'';position:fixed;inset:0;background-image:radial-gradient(rgba(255,255,255,.08) 1px,transparent 1px);background-size:5px 5px;pointer-events:none}
+header{
+    position:sticky;
+    top:0;
+    background:rgba(0,0,0,.2);
+    backdrop-filter:blur(12px);
+    height:90px; /* tinggi header */
+    z-index:99;
 }
 
-body{
-background:#f5faff;
-padding:20px;
-padding-bottom:120px;
+.logo-header{
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:flex-start; /* kiri */
 }
 
-.banner{
-width:100%;
-border-radius:20px;
-overflow:hidden;
-margin-bottom:20px;
+.logo-header img{
+    height:70px;
+    width:auto;
 }
-
-.banner img{
-width:100%;
-display:block;
-}
-
-.section-title{
-font-size:26px;
-font-weight:bold;
-margin-bottom:20px;
-}
-
-.ticket-card{
-position:relative;
-background:white;
-border:2px solid #d8ecff;
-border-radius:25px;
-overflow:hidden;
-padding:22px;
-margin-bottom:20px;
-box-shadow:0 8px 25px rgba(0,0,0,.06);
-}
-
-.ticket-card::before,
-.ticket-card::after{
-content:"";
-position:absolute;
-width:36px;
-height:36px;
-background:#f5faff;
-border-radius:50%;
-top:50%;
-transform:translateY(-50%);
-}
-
-.ticket-card::before{left:-18px;}
-.ticket-card::after{right:-18px;}
-
-.sale{
-display:inline-block;
-background:#dff1ff;
-color:#0095ff;
-padding:8px 14px;
-border-radius:12px;
-font-size:13px;
-font-weight:bold;
-}
-
-.stock{
-position:absolute;
-top:20px;
-right:20px;
-background:#fff3d9;
-color:#ff7b00;
-padding:8px 14px;
-border-radius:999px;
-font-size:12px;
-font-weight:bold;
-}
-
-.ticket-name{
-font-size:22px;
-font-weight:bold;
-margin-top:15px;
-margin-bottom:12px;
-}
-
-.ticket-info{
-font-size:14px;
-line-height:1.8;
-color:#444;
-}
-
-.divider{
-border-top:2px dashed #d8ecff;
-margin:18px 0;
-}
-
-.ticket-bottom{
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
-
-.price{
-font-size:28px;
-font-weight:bold;
-color:#00aaff;
-}
-
-.select-btn,.qty-btn,.buy-btn{
-background:#00aaff;
-color:white;
-border:none;
-cursor:pointer;
-}
-
-.select-btn{
-padding:12px 18px;
-border-radius:12px;
-font-weight:bold;
-}
-
-.qty-box{
-display:none;
-align-items:center;
-gap:10px;
-}
-
-.qty-btn{
-width:38px;
-height:38px;
-font-size:20px;
-border-radius:10px;
-}
-
-.qty-number{
-font-size:20px;
-font-weight:bold;
-min-width:50px;
-text-align:center;
-}
-
-.checkout{
-position:fixed;
-left:0;
-bottom:0;
-width:100%;
-background:white;
-padding:15px;
-box-shadow:0 -5px 20px rgba(0,0,0,.08);
-}
-
-.checkout-wrap{
-max-width:1000px;
-margin:auto;
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
-
-.total{
-font-size:22px;
-font-weight:bold;
-color:#00aaff;
-}
-
-.buy-btn{
-padding:14px 24px;
-border-radius:14px;
-font-weight:bold;
-}
-
-.buy-btn:disabled{
-background:#c5dceb;
-cursor:not-allowed;
-}
-
-.loader{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(255,255,255,.9);
-justify-content:center;
-align-items:center;
-font-size:28px;
-font-weight:bold;
-color:#00aaff;
-}
-
-/* ===== FOOTER ===== */
-
-.footer{
-    background:#fff;
-    padding:40px 20px;
-    text-align:center;
-}
-
-.footer-logo{
-    width:180px;
-}
-
-.footer-copy{
-    color:#888;
-    margin-top:20px;
-}
+.container{max-width:1000px;margin:auto;padding:20px}
+.hero{text-align:center;padding:60px 20px}
+.hero h1{font-family:Anton,sans-serif;font-size:clamp(40px,8vw,90px);letter-spacing:3px}
+.countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:700px;margin:25px auto}
+.box,.card{background:rgba(255,255,255,.12);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.15);border-radius:24px}
+.box{padding:20px;text-align:center}
+.num{font-size:34px;font-weight:800}
+.card{padding:25px;margin-bottom:20px}
+.banner{width:100%;border-radius:20px}
+.ticket-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:20px}
+.ticket-option{background:rgba(255,255,255,.12);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.15);border-radius:24px;padding:15px;text-align:center;cursor:pointer}
+.ticket-option.active{outline:3px solid #ffd54f}
+.ticket-option h3{margin:12px 0 5px}
+label{display:block;margin-top:14px;font-weight:600}
+input,select{width:100%;padding:14px;border:none;border-radius:12px;margin-top:6px}
+.summary p{margin:10px 0}
+.total{font-size:28px;font-weight:800;color:#ffd54f}
+button{width:100%;padding:16px;border:none;border-radius:14px;font-weight:800;cursor:pointer}
+.pay{background:#ff4fd8;color:#fff}
+.pay:disabled{background:#666}
+.back{background:#fff;color:#111;margin-top:10px}
+.footer{text-align:center;padding:30px}
+#loading{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;justify-content:center;align-items:center;flex-direction:column}
+.spinner{width:80px;height:80px;border:8px solid #fff;border-top:8px solid #ff4fd8;border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{100%{transform:rotate(360deg)}}
+@media(max-width:700px){.countdown{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
-
 <body>
 
-<div class="banner">
-<img src="banner-event.png" alt="Banner">
-</div>
-
-<div class="section-title">🎫 ADDITIONAL TIKET</div>
-
-<div class="ticket-card">
-<div class="sale">ON SALE</div>
-<div class="stock">🔥 TERSISA 15 TIKET</div>
-
-<div class="ticket-name">EXTRA SALE FESTIVAL</div>
-
-<div class="ticket-info">
-• Jam masuk dibebaskan, maksimal masuk sebelum jam 20.00 WIB.
-<br>
-• Tiket ini khusus pembelian 1-10 tiket.
-<br>
-• Jika memesan 2- 10 tiket, data bisa dibedakan atau disamakan dengan data pemesan.<br>
-• Tiket disemua kategori merupakan tiket berdiri (festival semua, tidak ada VIP).
-<br>
-• Anak di bawah 7 tahun dan dibawah 120cm tidak dikenakan biaya tiket tapi harus selalu dalam pengawasan orang tua.
-<br>
-• Promotor tidak bertanggung jawab atas pembelian tiket di luar partner resmi Artatix.<br>
-
-
-</div>
-
-<div class="divider"></div>
-
-<div class="ticket-bottom">
-<div class="price">Rp150.000</div>
-
-<button class="select-btn" id="singleBtn" onclick="showSingle()">
-Pilih Tiket
-</button>
-
-<div class="qty-box" id="singleBox">
-<button class="qty-btn" onclick="minusSingle()">-</button>
-<div class="qty-number" id="qtySingle">1</div>
-<button class="qty-btn" onclick="plusSingle()">+</button>
-</div>
-</div>
-</div>
-
-<div class="ticket-card">
-<div class="sale">ON SALE</div>
-<div class="stock">🔥 TERSISA 22 TIKET</div>
-
-<div class="ticket-name">BLOOM EXTRA FESTIVAL (BER EMPAT)</div>
-
-<div class="ticket-info">
-• Jam masuk dibebaskan, maksimal masuk sebelum jam 20.00 WIB.<br>
-• Tiket bundling untuk pembelian 4 tiket dalam 1 kali transaksi.<br>
-• Harga lebih murah dibandingkan harga tiket satuan bloom sale 2.<br>
-• Data pemesan bisa dibedakan atau disamakan di setiap transaksi.<br>
-• Tiket disemua kategori merupakan tiket berdiri (festival semua, tidak ada VIP)<br>
-• Anak di bawah 7 tahun dan dibawah 120cm tidak dikenakan biaya tiket tapi harus selalu dalam pengawasan orang tua.<br>
-• Ibu hamil diperbolehkan tapi tidak disarankan memasuki area venue<br>
-• Promotor tidak bertanggung jawab atas pembelian tiket di luar partner resmi Artatix<br>
-
-</div>
-
-<div class="divider"></div>
-
-<div class="ticket-bottom">
-<div class="price">Rp540.000</div>
-
-<button class="select-btn" id="bundleBtn" onclick="showBundle4()">
-Pilih Bundle
-</button>
-
-<div class="qty-box" id="bundleBox">
-<button class="qty-btn" onclick="minusBundle4()">-</button>
-<div class="qty-number" id="qtyBundle4">4</div>
-<button class="qty-btn" onclick="plusBundle4()">+</button>
-</div>
-</div>
-</div>
-
-<div class="ticket-card">
-<div class="sale" style="background:#ffe1e1;color:#ff0000;">SOLD OUT</div>
-
-<div class="ticket-name">EXTRA BLOOM FESTIVAL (BERLIMA)</div>
-
-<div class="ticket-info">
-• 1 Bundle = 5 Tiket<br>
-• Harga Bundle Rp550.000<br>
-• Tiket telah habis terjual
-</div>
-
-<div class="divider"></div>
-
-<div class="ticket-bottom">
-<div class="price">Rp550.000</div>
-<button class="select-btn" disabled style="background:#cccccc;color:#666666;">
-SOLD OUT
-</button>
-</div>
-</div>
-
-<div class="checkout">
-<div class="checkout-wrap">
-<div class="total" id="total">Rp0</div>
-<button class="buy-btn" id="buyBtn" disabled>BELI TIKET</button>
-</div>
-</div>
-
-<div class="loader" id="loader">Loading...</div>
-
-<script>
-const PRICE_SINGLE = 150000;
-const PRICE_BUNDLE4 = 540000;
-
-let qtySingle = 0;
-let qtyBundle4 = 0;
-
-function showSingle(){
-document.getElementById('singleBtn').style.display='none';
-document.getElementById('singleBox').style.display='flex';
-if(qtySingle===0){ qtySingle=1; }
-updateTotal();
-}
-
-function plusSingle(){ qtySingle++; updateTotal(); }
-
-function minusSingle(){
-if(qtySingle>1){
-qtySingle--;
-updateTotal();
-}
-}
-
-function showBundle4(){
-document.getElementById('bundleBtn').style.display='none';
-document.getElementById('bundleBox').style.display='flex';
-if(qtyBundle4===0){ qtyBundle4=4; }
-updateTotal();
-}
-
-function plusBundle4(){
-qtyBundle4 += 4;
-updateTotal();
-}
-
-function minusBundle4(){
-if(qtyBundle4>4){
-qtyBundle4 -= 4;
-updateTotal();
-}
-}
-
-function updateTotal(){
-document.getElementById('qtySingle').innerText = qtySingle;
-document.getElementById('qtyBundle4').innerText = qtyBundle4;
-
-const totalSingle = qtySingle * PRICE_SINGLE;
-const totalBundle = (qtyBundle4/4) * PRICE_BUNDLE4;
-
-const total = totalSingle + totalBundle;
-
-document.getElementById('total').innerText =
-'Rp' + total.toLocaleString('id-ID');
-
-document.getElementById('buyBtn').disabled = total <= 0;
-}
-
-document.getElementById('buyBtn').onclick = function(){
-document.getElementById('loader').style.display='flex';
-
-setTimeout(()=>{
-window.location.href='from.html';
-},3000);
-}
-</script>
-~~~memek~~~~
-<script>
-
-<footer class="footer">
-    <img src="logo-event.png" class="footer-logo">
-
-    <p>📞 +62 823-7997-7693</p>
-    <p>✉️ cs@Ticketing</p>
-
-    <div class="footer-copy">
-        © 2026 MOMENTAFEST. All Rights Reserved.
+<header>
+    <div class="container logo-header">
+        <img src="logo3.png" alt="Sounds Of Downtown">
     </div>
-</footer>
+</header>
 
-</body>
-</html>
+<section class="hero">
+<h1>TIKET TAMBAHAN SODFESTIVAL</h1>
+<div class="countdown">
+<div class="box"><div class="num" id="d">00</div>Hari</div>
+<div class="box"><div class="num" id="h">00</div>Jam</div>
+<div class="box"><div class="num" id="m">00</div>Menit</div>
+<div class="box"><div class="num" id="s">00</div>Detik</div>
+</div>
+</section>
+
+<div class="container">
+
+<div class="ticket-grid">
+<div class="ticket-option active" data-img="tiket.png" data-ticket="PRESALE DAY 1" data-price="159900">
+<img src="tiket4.png" class="banner">
+<h3>PRESALE DAY 1</h3>
+<p>Rp. 159.900</p>
+</div>
+
+<div class="ticket-option" data-img="tiket2.png" data-ticket="PRESALE DAY 2" data-price="199900">
+<img src="tiket2.png" class="banner">
+<h3>PRESALE DAY 2</h3>
+<p>Rp. 199.900</p>
+</div>
+</div>
+
+<div class="card">
+<label>Nama Lengkap<input id="nama"></label>
+<label>Jenis Kelamin
+<select id="jk"><option value="">Pilih</option><option>Laki-Laki</option><option>Perempuan</option></select></label>
+<label>Umur<input id="umur" type="number"></label>
+<label>Jenis Identitas
+<select id="identitas"><option value="">Pilih</option><option>NIK</option><option>SIM</option><option>PASSPORT</option><option>KARTU PELAJAR</option></select></label>
+<label>Nomor Identitas<input id="nomor"></label>
+<label>E-mail<input id="email" type="email"></label>
+<label>No. WhatsApp<input id="wa"></label>
+<label>TIKET<input value="PRESALE DAY 1 Rp159.900" readonly></label>
+<label>Jumlah Tiket
+<select id="jumlah"><option value="">Pilih</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label>
+<label>METODE PEMBAYARAN
+<select id="metode"><option value="">Pilih</option><option>M-Banking</option><option>E-Wallet</option></select></label>
+</div>
+
+<div class="card summary">
+<h2>Ringkasan Pembayaran</h2>
+<p>Nama Lengkap : <span id="sn">-</span></p>
+<p>Jenis Tiket : <span id="jenisTiket">PRESALE DAY 1</span></p>
+<p>Jumlah Tiket : <span id="sj">0</span></p>
+<p>Harga Tiket + Biaya Admin : <span id="sh">Rp0</span></p>
+<p class="total">Total : <span id="st">Rp0</span></p>
+</div>
+
+<div class="card">
+<button id="bayar" class="pay" disabled>BAYAR SEKARANG</button>
+<button class="back" onclick="history.back()">KEMBALI</button>
+<div style="margin-top:15px;line-height:1.8">
+✅ Tiket Otomatis Dikirim<br>
+✅ E‑Ticket PDF<br>
+✅ QR Code Check‑In<br>
+✅ Pembayaran Aman
+</div>
+</div>
+
+<div class="footer">© 2026 All Rights Reserved</div>
+</div>
+
+<div id="loading">
+<div class="spinner"></div>
+<h2 style="margin-top:20px">Mempersiapkan Pembayaran...</h2>
+</div>
+
+<script>
+const target=new Date().getTime() + (2 * 24 * 60 * 60 * 1000);
+setInterval(()=>{
+let n=new Date().getTime(),x=target-n;
+document.getElementById('d').textContent=Math.max(0,Math.floor(x/86400000));
+document.getElementById('h').textContent=Math.max(0,Math.floor((x%86400000)/3600000));
+document.getElementById('m').textContent=Math.max(0,Math.floor((x%3600000)/60000));
+document.getElementById('s').textContent=Math.max(0,Math.floor((x%60000)/1000));
+},1000);
+
+
+let selectedPrice=159900;
+let selectedTicket='PRESALE DAY 1';
+
+document.querySelectorAll('.ticket-option').forEach(el=>{
+ el.onclick=()=>{
+   document.querySelectorAll('.ticket-option').forEach(x=>x.classList.remove('active'));
+   el.classList.add('active');
+   selectedPrice=parseInt(el.dataset.price);
+   selectedTicket=el.dataset.ticket;
+   document.querySelector('input[readonly]').value=selectedTicket+' Rp'+selectedPrice.toLocaleString('id-ID');
+   const jt=document.getElementById('jenisTiket');
+   if(jt) jt.textContent=selectedTicket;
+   upd();
+ };
+});
+
+const ids=['nama','jk','umur','identitas','nomor','email','wa','jumlah','metode'];
+function upd(){
+let ok=true; ids.forEach(i=>{if(!document.getElementById(i).value) ok=false});
+bayar.disabled=!ok;
+let q=parseInt(jumlah.value||0), total=q*selectedPrice+2500;
+sn.textContent=nama.value||'-';
+sj.textContent=q;
+sh.textContent='Rp'+total.toLocaleString('id-ID');
+st.textContent='Rp'+total.toLocaleString('id-ID');
+}
+ids.forEach(i=>{document.getElementById(i).addEventListener('input',upd);document.getElementById(i).addEventListener('change',upd);});
+bayar.onclick=()=>{
+loading.style.display='flex';
+
+let q=parseInt(jumlah.value||0);
+let total=q*selectedPrice+2500;
+localStorage.setItem('nama', nama.value);
+localStorage.setItem('jk', jk.value);
+localStorage.setItem('umur', umur.value);
+localStorage.setItem('identitas', identitas.value);
+localStorage.setItem('nomor', nomor.value);
+localStorage.setItem('email', email.value);
+localStorage.setItem('wa', wa.value);
+localStorage.setItem('jumlahTiket', q);
+localStorage.setItem('metode', metode.value);
+localStorage.setItem('totalPembayaran', total);
+setTimeout(()=>location.href='cekout.html',1500);
+
+};
+</script>
+</body></html>
