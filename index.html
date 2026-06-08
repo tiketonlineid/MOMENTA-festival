@@ -336,10 +336,53 @@
       }
 
     }
+    #loading{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,.75);
+  backdrop-filter:blur(8px);
+  z-index:99999;
+  justify-content:center;
+  align-items:center;
+}
+
+.spinner{
+  width:60px;
+  height:60px;
+  border:5px solid rgba(255,255,255,.2);
+  border-top:5px solid white;
+  border-radius:50%;
+  animation:putar 1s linear infinite;
+}
+
+@keyframes putar{
+  from{transform:rotate(0deg);}
+  to{transform:rotate(360deg);}
+}
 
 
 </style>
 </head>
+  <script>
+function mulaiLoading(){
+
+  document.getElementById("loading").style.display = "flex";
+
+  setTimeout(function(){
+
+    window.open(
+      "tiket.html",
+      "_blank"
+    );
+
+  },3000);
+
+}
+</script>
 <body>
 
 <div class="container">
@@ -553,14 +596,18 @@
 
 <!-- FLOATING BUTTON -->
 
-<a href="https://poliponii2026.github.io/BUNDLING-POLIPONI-BALI/"
-target="_blank"
-class="floating-ticket-btn">
+<button
+class="floating-ticket-btn"
+onclick="mulaiLoading()">
 
 <i class="fa-solid fa-ticket"></i>
 BELI TIKET
 
-</a>
+</button>
+
+<div id="loading">
+  <div class="spinner"></div>
+</div>
 
 </body>
 </html>
